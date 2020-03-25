@@ -98,7 +98,7 @@ class BackendDataParser(Resource):
     def get(self):
         output = BackendModel.query.all()
         out = backendMarshal.dump(output)
-        return out, 200
+        return {"data":out}, 200
 
     def post(self):
         data = request.form["keterangan"]
