@@ -86,7 +86,7 @@ def uploadImage(dataFile):
     if mode == "development":
         server = "http://localhost"
     else:
-        server = "https://tasbih-pintar-backend-server.herokuapp.com/"
+        server = "https://tasbih-pintar-backend-server.herokuapp.com"
     randomName = randomKey()
     imgName = fixFileName(dataFile.filename)
     img = dataFile.save(os.path.join("static", "images", randomName + "_" + imgName))
