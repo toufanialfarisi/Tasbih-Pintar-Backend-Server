@@ -25,6 +25,7 @@ class BackendModel(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     gambar = db.Column(db.String(100))
     keterangan = db.Column(db.String(100))
+    nama_dzikir = db.Column(db.String(100))
 
     def save(self):
         try:
@@ -98,15 +99,17 @@ class BackendDataParser(Resource):
     def get(self):
         output = BackendModel.query.all()
         out = backendMarshal.dump(output)
-        return {"data":out}, 200
+        return {"data": out}, 200
 
     def post(self):
-        data = request.form["keterangan"]
+        dataKeterangan = request.form["keterangan"]
+        dataNamaDzikir = request.form["nama_dzikir"]
         dataFile = request.files["gambar"]
         img = uploadImage(dataFile)
         model = BackendModel()
         model.gambar = img
-        model.keterangan = data
+        model.keterangan = dataKeterangan
+        model.nama_dzikir = dataNamaDzikir
         model.save()
         return {"msg": "Data berhasil masuk"}, 200
 
@@ -144,4 +147,3 @@ api.add_resource(BackendDataParserId, "/api/<id>", methods=["DELETE"])
 
 if __name__ == "__main__":
     app.run(debug=True, port=5001)
-
