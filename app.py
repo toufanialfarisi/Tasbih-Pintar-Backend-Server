@@ -80,7 +80,12 @@ def randomKey():
     return out
 
 
-def uploadImage(dataFile, server):
+def uploadImage(dataFile):
+    mode = os.getenv("MODE")
+    if mode == "development":
+        server = "http://localhost"
+    else:
+        server = "https://tasbih-pintar-backend-server.herokuapp.com/"
     randomName = randomKey()
     imgName = fixFileName(dataFile.filename)
     img = dataFile.save(os.path.join("static", "images", randomName + "_" + imgName))
@@ -98,7 +103,7 @@ class BackendDataParser(Resource):
     def post(self):
         data = request.form["keterangan"]
         dataFile = request.files["gambar"]
-        img = uploadImage(dataFile, "http://localhost")
+        img = uploadImage(dataFile)
         model = BackendModel()
         model.gambar = img
         model.keterangan = data
